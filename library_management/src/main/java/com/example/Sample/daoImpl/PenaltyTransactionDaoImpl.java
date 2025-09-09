@@ -1,5 +1,6 @@
 package com.example.Sample.daoImpl;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -88,12 +89,13 @@ public class PenaltyTransactionDaoImpl implements PenaltyTransactionDao {
 
         Predicate statusBorrowed = cb.equal(root.get("rentalStatus"), "Borrowed");
         Predicate actualReturnNull = cb.isNull(root.get("actualReturnDate"));
-        Predicate overdue = cb.lessThan(root.get("returnDate"), LocalDateTime.now());
+        Predicate overdue = cb.lessThan(root.get("returnDate"), LocalDate.now().atStartOfDay());
 
         cq.select(root).where(cb.and(statusBorrowed, actualReturnNull, overdue));
 
         return entityManager.createQuery(cq).getResultList();
     }
+
 
 
 }

@@ -2,13 +2,24 @@ package com.example.Sample.model.dto;
 
 import java.time.LocalDateTime;
 
+import com.example.Sample.util.DateTimeDeserializeUtil;
+import com.example.Sample.util.DateTimeSerializeUtil;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 public class RentalTransactionDto {
 
     private Integer transactionId;
     private Integer memberId;
     private Integer bookId;
+    @JsonSerialize(using = DateTimeSerializeUtil.class)
+    @JsonDeserialize(using = DateTimeDeserializeUtil.class) 
     private LocalDateTime borrowedDate;
+    @JsonSerialize(using = DateTimeSerializeUtil.class)
+    @JsonDeserialize(using = DateTimeDeserializeUtil.class) 
     private LocalDateTime returnDate;
+    @JsonSerialize(using = DateTimeSerializeUtil.class)
+    @JsonDeserialize(using = DateTimeDeserializeUtil.class) 
     private LocalDateTime actualReturnDate;
     private String rentalStatus;
     private Double fineAccrued;

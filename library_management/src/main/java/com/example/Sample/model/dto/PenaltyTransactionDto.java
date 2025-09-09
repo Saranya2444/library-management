@@ -2,6 +2,11 @@ package com.example.Sample.model.dto;
 
 import java.time.LocalDateTime;
 
+import com.example.Sample.util.DateTimeDeserializeUtil;
+import com.example.Sample.util.DateTimeSerializeUtil;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 public class PenaltyTransactionDto {
 
     private Integer penaltyId;
@@ -9,7 +14,11 @@ public class PenaltyTransactionDto {
     private Double amount;
     private String reason;
     private String status;
+    @JsonSerialize(using = DateTimeSerializeUtil.class)
+    @JsonDeserialize(using = DateTimeDeserializeUtil.class) 
     private LocalDateTime createdAt;
+    @JsonSerialize(using = DateTimeSerializeUtil.class)
+    @JsonDeserialize(using = DateTimeDeserializeUtil.class) 
     private LocalDateTime paidAt;
     private String payment_mode ;
 

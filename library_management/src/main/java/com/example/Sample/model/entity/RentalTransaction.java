@@ -17,7 +17,7 @@ public class RentalTransaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "transaction_id")   // <-- explicit mapping
+    @Column(name = "transaction_id")   
     private Integer transactionId;
 
     @ManyToOne
@@ -34,7 +34,7 @@ public class RentalTransaction {
     @Column(name = "return_date", nullable = false)
     private LocalDateTime returnDate;
 
-    @Column(name = "actual_returned_date")   // <-- this is the missing column in DB
+    @Column(name = "actual_returned_date")   
     private LocalDateTime actualReturnDate;
 
     @Column(name = "rental_status", length = 20, nullable = false)

@@ -22,5 +22,6 @@ public interface RentalTransactionService {
    
     String getFavoriteAuthorsAndAvailability(Integer memberId);
 	String renewBook(Integer transactionId);
+	void sendOverdueNotifications();
    
 }

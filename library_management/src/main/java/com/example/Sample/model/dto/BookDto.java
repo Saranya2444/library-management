@@ -2,8 +2,9 @@ package com.example.Sample.model.dto;
 
 import java.time.LocalDateTime;
 
-import com.example.Sample.util.DateDeserializeUtil;
-import com.example.Sample.util.DateSerializeUtil;
+
+import com.example.Sample.util.DateTimeDeserializeUtil;
+import com.example.Sample.util.DateTimeSerializeUtil;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -20,13 +21,13 @@ public class BookDto {
 
     private String language;
 
-    @JsonDeserialize(using = DateDeserializeUtil.class)
-    @JsonSerialize(using = DateSerializeUtil.class)   
+    @JsonSerialize(using = DateTimeSerializeUtil.class)
+    @JsonDeserialize(using = DateTimeDeserializeUtil.class)    
     private LocalDateTime bookRegisterDate;
     
 
-    @JsonDeserialize(using = DateDeserializeUtil.class)
-    @JsonSerialize(using = DateSerializeUtil.class) 
+    @JsonSerialize(using = DateTimeSerializeUtil.class)
+    @JsonDeserialize(using = DateTimeDeserializeUtil.class) 
     private LocalDateTime bookDeletedDate;
 
     private String bookStatus;
@@ -34,12 +35,12 @@ public class BookDto {
     private String genre;
     private Double price;
 
-    @JsonDeserialize(using = DateDeserializeUtil.class)
-    @JsonSerialize(using = DateSerializeUtil.class) 
+    @JsonSerialize(using = DateTimeSerializeUtil.class)
+    @JsonDeserialize(using = DateTimeDeserializeUtil.class) 
     private LocalDateTime createdAt;
 
-    @JsonDeserialize(using = DateDeserializeUtil.class)
-    @JsonSerialize(using = DateSerializeUtil.class) 
+    @JsonSerialize(using = DateTimeSerializeUtil.class)
+    @JsonDeserialize(using = DateTimeDeserializeUtil.class) 
     private LocalDateTime updatedAt;
 
     

@@ -13,6 +13,7 @@ import com.example.Sample.model.entity.RentalTransaction;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Expression;
@@ -189,6 +190,28 @@ public class RentalTransactionDaoImpl implements RentalTransactionDao {
         return entityManager.createQuery(cq)
                 .setMaxResults(limit)
                 .getResultList();
+    }
+    
+    
+    
+    @Override
+    public List<RentalTransaction> findDueInNextThreeDays(LocalDateTime today, LocalDateTime threeDaysLater) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<RentalTransaction> cq = cb.createQuery(RentalTransaction.class);
+
+        Root<RentalTransaction> root = cq.from(RentalTransaction.class);
+
+        
+        Predicate actualReturnNull = cb.isNull(root.get("actualReturnDate"));
+
+        
+        Predicate returnAfterToday = cb.greaterThanOrEqualTo(root.get("returnDate"), today);
+
+        Predicate returnBeforeOrEqual = cb.lessThanOrEqualTo(root.get("returnDate"), threeDaysLater);
+
+        cq.select(root).where(cb.and(actualReturnNull, returnAfterToday, returnBeforeOrEqual));
+
+        return entityManager.createQuery(cq).getResultList();
     }
 
 }

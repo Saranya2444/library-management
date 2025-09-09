@@ -160,9 +160,11 @@ public class MemberServiceImpl implements MemberService {
                 member.getMemberEndDate().isBefore(now)) {
               //  member.setMembershipStatus(LibraryUtil.STATUS_INACTIVE);
                 memberDao.updateStatus(member.getMemberId(),LibraryUtil.STATUS_INACTIVE);
+                allServiceMail.sendDeActivationMail(member.getMemberEmail(), member.getMemberName());
                 count++;
             }
         }
+        
         return count + LibraryUtil.MEMBERSHIPS_DEACTIVATED_EXPIRY;
     }
 

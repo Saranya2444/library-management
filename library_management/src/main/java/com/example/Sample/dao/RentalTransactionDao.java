@@ -14,6 +14,6 @@ public interface RentalTransactionDao {
     long countCurrentBorrowedByMember(Integer memberId, LocalDateTime now);
     long countOverdueByMember(Integer memberId, LocalDateTime now);
 
-    
+    List<RentalTransaction> findDueInNextThreeDays(LocalDateTime today, LocalDateTime threeDaysLater);
     List<Object[]> topAuthorsForMember(Integer memberId, int limit);
 }

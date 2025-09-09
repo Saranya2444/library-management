@@ -4,8 +4,8 @@ package com.example.Sample.model.dto;
 
 import java.time.LocalDateTime;
 
-import com.example.Sample.util.DateDeserializeUtil;
-import com.example.Sample.util.DateSerializeUtil;
+import com.example.Sample.util.DateTimeDeserializeUtil;
+import com.example.Sample.util.DateTimeSerializeUtil;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -34,13 +34,13 @@ public class MemberDto {
     private String memberMobileNumber;
     
     private String memberWorkStatus;
-    @JsonDeserialize(using = DateDeserializeUtil.class)
-    @JsonSerialize(using = DateSerializeUtil.class)
+    @JsonSerialize(using = DateTimeSerializeUtil.class)
+    @JsonDeserialize(using = DateTimeDeserializeUtil.class) 
     private LocalDateTime memberStartDate;
     
     private String membershipPeriod;
-    @JsonDeserialize(using = DateDeserializeUtil.class)
-    @JsonSerialize(using = DateSerializeUtil.class)
+    @JsonSerialize(using = DateTimeSerializeUtil.class)
+    @JsonDeserialize(using = DateTimeDeserializeUtil.class) 
     private LocalDateTime memberEndDate;
 
     

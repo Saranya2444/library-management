@@ -1,6 +1,7 @@
 package com.example.Sample.serviceImpl;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class RentalTransactionServiceImpl implements RentalTransactionService {
     @Autowired
     private BookDao bookDao;
 
+    @Autowired
+    private AllServiceMail mailService;
+    
     @Override
     public String checkoutBook(Integer memberId, Integer bookId, LocalDateTime dueDate) {
         Member member = memberDao.findById(memberId);
@@ -116,7 +120,9 @@ public class RentalTransactionServiceImpl implements RentalTransactionService {
     @Override
     public String getFavoriteAuthorsAndAvailability(Integer memberId) {
         List<Object[]> rows = rentalTransactionDao.topAuthorsForMember(memberId, 3);
-        if (rows.isEmpty()) return String.format(LibraryUtil.NO_RENTAL_HISTORY, memberId);
+        if (rows.isEmpty())
+              return String.format(LibraryUtil.NO_RENTAL_HISTORY, memberId);
+        
         StringBuilder sb = new StringBuilder("Top authors for member " + memberId + ":\n");
         for (Object[] row : rows) {
             String author = (String) row[0];
@@ -168,6 +174,37 @@ public class RentalTransactionServiceImpl implements RentalTransactionService {
 
         rentalTransactionDao.save(transaction);
         return LibraryUtil.BOOK_RENEWED_SUCCESS;
-    }}
+    }
+    
+    @Override
+    @Scheduled(cron = "0 15 11 * * ?")
+    public void sendOverdueNotifications() {
+        LocalDateTime today = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
+        LocalDateTime threeDaysLater = today.plusDays(3);
+
+        List<RentalTransaction> upcomingDueBooks =
+                rentalTransactionDao.findDueInNextThreeDays(today, threeDaysLater);
+
+        for (RentalTransaction rental : upcomingDueBooks) {
+            Member member = rental.getMember();
+            Book book = rental.getBook();
+
+            long daysLeft = ChronoUnit.DAYS.between(today.toLocalDate(), rental.getReturnDate().toLocalDate());
+
+            mailService.sendOverdueReminderMail(
+            	    member.getMemberEmail(),
+            	    member.getMemberName(),
+            	    book,
+            	    rental.getReturnDate().toLocalDate().toString(),
+            	    daysLeft
+            	);
+
+        }
+    }
+
+}
+
+
+
     
 
